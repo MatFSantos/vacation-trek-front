@@ -3,7 +3,7 @@
 This repository refers to the SPA of the Vacation Trek project, a website for organizing vacations plans.
 
 With this site, the user can plan their vacation in the best possible way, registering the destinations and companies that will enjoy the moment.
-
+- [User guide](GUIDE.md)
 ## How to run locally withou Docker
 
 Ensure that the constant `API_URL` in `src/data/store/config.js` has the correct API link. The default is `http://localhost:3333`.
