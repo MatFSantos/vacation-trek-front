@@ -39,3 +39,5 @@ $ sudo docker compose up -d
 ```
 
 > This command will be create the image of the entire application and run in the background. You can stop the process running `sudo docker stop vacation-trek-front`.
+
+Now your SPA is running in `http://localhost:80` or just `http://localhost`.
