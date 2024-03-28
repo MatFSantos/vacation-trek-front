@@ -417,7 +417,7 @@ const Home = () => {
         </ContentOption>
       </ContentInfo>
       <Tabs value={tab} onChange={(_, v) => setTab(v)} centered>
-        <Tab value={1} label="Plans" sx={{fontWeight: 'bold', fontSize: '18px', color: '#b6daf8'}} />
+        <Tab value={1} label="Plans" sx={{fontWeight: 'bold', fontSize: '16px', color: '#b6daf8'}} />
       </Tabs>
       {tab == 1 ?
         <ListContainer>
@@ -431,7 +431,7 @@ const Home = () => {
                       <h1>{plan.title}</h1>
                       <h3>{plan.date_start.split("T")[0] + " to " + plan.date_end.split("T")[0]}
                       </h3>
-                      <h4>{plan.description}</h4>
+                      <h4>{plan.description?.length > 50 ? plan.description.slice(1,50) + "..." : plan.description }</h4>
                     </Infos>
                   </ContentPlanCard>
                   <Button
@@ -476,8 +476,8 @@ const Home = () => {
             </ContentOption>
           </ContentInfo>
           <Tabs value={tabModal} onChange={(_,v) => setTabModal(v)} centered>
-            <Tab value={1} label="Itinerary" sx={{fontWeight: 'bold', fontSize: '18px', color: '#b6daf8'}} />
-            <Tab value={2} label="Participants" sx={{fontWeight: 'bold', fontSize: '18px', color: '#b6daf8'}} />
+            <Tab value={1} label="Itinerary" sx={{fontWeight: 'bold', fontSize: '16px', color: '#b6daf8'}} />
+            <Tab value={2} label="Participants" sx={{fontWeight: 'bold', fontSize: '16px', color: '#b6daf8'}} />
           </Tabs>
           <ListContainer>
             {tabModal == 1 ? (

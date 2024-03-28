@@ -11,7 +11,7 @@ export const ContentHome = styled('div')`
 
 export const ContentInfo = styled('div')`
   display: flex;
-
+  align-items: center;
   > .avatar{
     width: 200px;
     height: 200px;
@@ -35,6 +35,13 @@ export const ContentInfo = styled('div')`
       width: 100px;
       height: 100px;
       font-size: 50px;
+    }
+  }
+  ${({theme}) => theme.breakpoints.down('md')}{
+    > .avatar{
+      width: 50px;
+      height: 50px;
+      font-size: 30px;
     }
   }
 `;
@@ -70,6 +77,19 @@ export const Infos = styled('div')`
 
     > h1{
       font-size: 20px;
+    }
+  }
+
+  ${({theme}) => theme.breakpoints.down('md')}{
+    > h3{
+      font-size: 12px;
+    }
+    > h4{
+      font-size: 10px;
+    }
+
+    > h1{
+      font-size: 14px;
     }
   }
 `;
@@ -180,6 +200,28 @@ export const ContentPlanCard = styled('div')`
     width: 100px;
     height: 100px;
     font-size: 120px;
+  }
+  ${({theme}) => theme.breakpoints.down('lg')}{
+    > .avatar{
+      width: 150px;
+      height: 150px;
+      font-size: 70px;
+    }
+  }
+
+  ${({theme}) => theme.breakpoints.down('md')}{
+    > .avatar{
+      width: 100px;
+      height: 100px;
+      font-size: 50px;
+    }
+  }
+  ${({theme}) => theme.breakpoints.down('md')}{
+    > .avatar{
+      width: 50px;
+      height: 50px;
+      font-size: 50px;
+    }
   }
 
   display: flex;
