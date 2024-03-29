@@ -1,4 +1,4 @@
-import { Paper, styled, Button as MuiButton } from "@mui/material";
+import { Paper, styled, Button as MuiButton, Tab as MuiTab } from "@mui/material";
 
 export const ContentHome = styled('div')`
   border: 2px solid gray;
@@ -37,7 +37,7 @@ export const ContentInfo = styled('div')`
       font-size: 50px;
     }
   }
-  ${({theme}) => theme.breakpoints.down('md')}{
+  ${({theme}) => theme.breakpoints.down('sm')}{
     > .avatar{
       width: 50px;
       height: 50px;
@@ -46,49 +46,51 @@ export const ContentInfo = styled('div')`
   }
 `;
 
-export const Infos = styled('div')`
-  padding-left: 20px;
+export const Infos = styled("div")`
+  padding-left: ${(props) => props.justifyContent == 'center' ? "0px" : '20px'};
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: ${(props) => props.justifyContent};
+  text-align: ${(props) => props.justifyContent};
 
-  > h3{
+  > h3 {
     color: gray;
     font-weight: normal;
     margin: 2px;
   }
-  > h4{
+  > h4 {
     color: gray;
     font-weight: normal;
     margin: 2px;
   }
 
-  > h1{
+  > h1 {
     margin: 2px;
   }
 
-  ${({theme}) => theme.breakpoints.down('md')}{
-    > h3{
+  ${({ theme }) => theme.breakpoints.down("lg")} {
+    > h3 {
       font-size: 15px;
     }
-    > h4{
+    > h4 {
       font-size: 12px;
     }
 
-    > h1{
+    > h1 {
       font-size: 20px;
     }
   }
 
-  ${({theme}) => theme.breakpoints.down('md')}{
-    > h3{
-      font-size: 12px;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    > h3 {
+      font-size: 8px;
     }
-    > h4{
-      font-size: 10px;
+    > h4 {
+      font-size: 8px;
     }
 
-    > h1{
+    > h1 {
       font-size: 14px;
     }
   }
@@ -110,7 +112,9 @@ export const PlansCard = styled('div')`
   justify-content: ${(props) => props.jc};
   border-radius: 10px;
   padding: 5px;
-  min-width: 100% ;
+  margin-left: 20px;
+  margin-right: 20px;
+  min-width: 90% ;
   display: flex;
   cursor: ${(props) => props.cursor};
 
@@ -126,6 +130,12 @@ export const PlansCard = styled('div')`
     }
   }
 
+  ${({theme}) => theme.breakpoints.down('md')}{
+    > .add-icon {
+      font-size: 18px;
+    }
+  }
+
 `;
 
 
@@ -137,43 +147,51 @@ export const PaperModal = styled(Paper)`
   transform: translate(-50%, -50%);
   box-shadow: 24;
   position: absolute;
-  padding: 20px;
+  padding: ${(props) => props.padding};
+  display: ${(props) => (props.innerMargin ? "flex" : "")};
+  flex-direction: ${(props) => props.innerMargin ? "column" : ""};
+  align-items: center;
   min-width: 1000px;
+  max-height: 90vh;
+  overflow: auto;
+  transition: all ease 0.4s;
 
   > div {
-    margin: 10px;
+    margin: ${(props) => props.innerMargin};
   }
 
-  ${({theme}) => theme.breakpoints.down('lg')}{
+  ${({ theme }) => theme.breakpoints.down("lg")} {
     min-width: 700px;
   }
 
-  ${({theme}) => theme.breakpoints.down('md')}{
+  ${({ theme }) => theme.breakpoints.down("md")} {
     min-width: 0;
+    width: 85%;
   }
 
   .MuiFormLabel-root {
     color: gray;
   }
 
-  .MuiInputBase-root{
+  .MuiInputBase-root {
     border: 0.5px solid white;
   }
 
-  .MuiInputBase-root:hover{
+  .MuiInputBase-root:hover {
     border-color: gray;
   }
-  .MuiInputBase-input:focus{
-    .MuiInputBase-root:hover{
+  .MuiInputBase-input:focus {
+    .MuiInputBase-root:hover {
       border-color: white;
     }
   }
 
   > .datetime {
-    .MuiInputBase-input, .MuiSvgIcon-root{
+    .MuiInputBase-input,
+    .MuiSvgIcon-root {
       color: black;
     }
-  } 
+  }
 `;
 
 export const Button = styled(MuiButton)`
@@ -193,6 +211,14 @@ export const Button = styled(MuiButton)`
     return 'white !important'
   
   }};
+
+  ${({theme}) => theme.breakpoints.down('md')}{
+    min-width: 0;
+    padding: 4px;
+    > svg {
+      font-size: 15px;
+    }
+  }
 `;
 
 export const ContentPlanCard = styled('div')`
@@ -216,7 +242,7 @@ export const ContentPlanCard = styled('div')`
       font-size: 50px;
     }
   }
-  ${({theme}) => theme.breakpoints.down('md')}{
+  ${({theme}) => theme.breakpoints.down('sm')}{
     > .avatar{
       width: 50px;
       height: 50px;
@@ -235,4 +261,96 @@ export const ContentOption = styled('div')`
   margin-left: auto;
   justify-content: center;
   align-items: center;
+`;
+
+export const Tab = styled(MuiTab)`
+  font-weight: bold;
+  font-size: 16px;
+  color: #b6daf8;
+
+  ${({ theme }) => theme.breakpoints.down("lg")} {
+    font-weight: bold;
+    font-size: 14px;
+    color: #b6daf8;
+  }
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    font-weight: bold;
+    font-size: 11px;
+    color: #b6daf8;
+    padding: 5px;
+  }
+`;
+
+export const ContentInfoModal = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 !important;
+`;
+
+export const ContentAvatar = styled("div")`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+
+  > .button {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    margin-right: 5px;
+    color: black;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(${(props) => props.src});
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: blur(5px);
+    z-index: -1;
+  }
+
+  > .avatar {
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+    font-size: 120px;
+    background-color: #90caf9;
+    border: 1px solid #90caf9;
+    color: white;
+    box-shadow: 1px 0 10px #90caf9;
+  }
+
+  ${({ theme }) => theme.breakpoints.down("lg")} {
+    > .avatar {
+      width: 150px;
+      height: 150px;
+      font-size: 70px;
+    }
+  }
+
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    > .avatar {
+      width: 100px;
+      height: 100px;
+      font-size: 50px;
+    }
+  }
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    > .avatar {
+      width: 50px;
+      height: 50px;
+      font-size: 30px;
+    }
+  }
 `;

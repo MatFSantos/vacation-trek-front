@@ -1,12 +1,25 @@
-import { Avatar, Tabs, Tab, Container, Modal, CircularProgress, TextField } from "@mui/material";
+import { Avatar, Tabs, Container, Modal, CircularProgress, TextField, Button as MuiButton } from "@mui/material";
 import { DatePicker, DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
 import { AddCircleOutline, Delete, Logout, PictureAsPdf } from '@mui/icons-material';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
-import { ContentHome, ContentInfo, Infos, PlansCard, ListContainer, PaperModal, Button, ContentPlanCard, ContentOption } from "./styles";
+import {
+  ContentHome,
+  ContentInfo,
+  Infos,
+  PlansCard,
+  ListContainer,
+  PaperModal,
+  Button,
+  ContentPlanCard,
+  ContentOption,
+  Tab,
+  ContentInfoModal,
+  ContentAvatar,
+} from "./styles";
 import { snackbarError } from "../../data/store/config";
 import { getAuth, pdfGenerator } from "../../data/utils/common.util";
 import useApi from "../../data/hooks/useApi";
@@ -417,7 +430,7 @@ const Home = () => {
         </ContentOption>
       </ContentInfo>
       <Tabs value={tab} onChange={(_, v) => setTab(v)} centered>
-        <Tab value={1} label="Plans" sx={{fontWeight: 'bold', fontSize: '16px', color: '#b6daf8'}} />
+        <Tab value={1} label="Plans" />
       </Tabs>
       {tab == 1 ?
         <ListContainer>
@@ -429,9 +442,9 @@ const Home = () => {
                     <Avatar className="avatar" src="/travel.webp"/>
                     <Infos>
                       <h1>{plan.title}</h1>
-                      <h3>{plan.date_start.split("T")[0] + " to " + plan.date_end.split("T")[0]}
-                      </h3>
-                      <h4>{plan.description?.length > 50 ? plan.description.slice(1,50) + "..." : plan.description }</h4>
+                      <h4>{"From " + dayjs(plan.date_start.split("T")[0]).format('MMMM DD, YYYY') + " to " + dayjs(plan.date_end.split("T")[0]).format('MMMM DD, YYYY')}
+                      </h4>
+                      <h4>{plan.description?.length > 50 ? plan.description.slice(0,50) + "..." : plan.description }</h4>
                     </Infos>
                   </ContentPlanCard>
                   <Button
@@ -462,22 +475,27 @@ const Home = () => {
         aria-describedby="modal-description"
       >
         <PaperModal elevation={0}>
-          <ContentInfo>
-            <Avatar className="avatar" src='/travel.webp' alt="plan-pic" />
-            <Infos>
+          <ContentInfoModal>
+            <ContentAvatar src="/travel.webp">
+              <Avatar className="avatar" src='/travel.webp' alt="plan-pic" />
+              <MuiButton
+                className="button"
+                onClick={() => toPDF()}
+                disabled={loadingPDF}
+                variant="text"
+              >
+                {loadingPDF ? <CircularProgress size={20} /> : ""}<PictureAsPdf />
+              </MuiButton>
+            </ContentAvatar>
+            <Infos justifyContent="center">
               <h1>{planModal?.title ?? 'Title'}</h1>
-              <h3>{planModal?.date_start.split("T")[0] + " to " + planModal?.date_end.split("T")[0]}</h3>
+              <h3>{"From " + dayjs(planModal?.date_start.split("T")[0]).format('MMMM DD, YYYY') + " to " + dayjs(planModal?.date_end.split("T")[0]).format('MMMM DD, YYYY')}</h3>
               <h4>{planModal?.description ?? 'Description'}</h4>
             </Infos>
-            <ContentOption>
-              <Button onClick={() => toPDF()} disabled={loadingPDF}>
-                {loadingPDF ? <CircularProgress size={20} /> : ""}<PictureAsPdf />
-              </Button>
-            </ContentOption>
-          </ContentInfo>
+          </ContentInfoModal>
           <Tabs value={tabModal} onChange={(_,v) => setTabModal(v)} centered>
-            <Tab value={1} label="Itinerary" sx={{fontWeight: 'bold', fontSize: '16px', color: '#b6daf8'}} />
-            <Tab value={2} label="Participants" sx={{fontWeight: 'bold', fontSize: '16px', color: '#b6daf8'}} />
+            <Tab value={1} label="Itinerary" />
+            <Tab value={2} label="Participants"/>
           </Tabs>
           <ListContainer>
             {tabModal == 1 ? (
@@ -488,8 +506,7 @@ const Home = () => {
                       <ContentPlanCard>
                         <Infos>
                           <h1>{itinerary.location}</h1>
-                          <h3>{itinerary.date.split("T")[0] + " at " + itinerary.date.split("T")[1]}
-                          </h3>
+                          <h4>{dayjs(itinerary.date.slice(0, -1) + "-03:00").format("MMMM DD, YYYY at HH:mm").replace("am", "a").replace("pm", "a")}</h4>
                         </Infos>
                       </ContentPlanCard>
                       <Button
@@ -549,7 +566,7 @@ const Home = () => {
         aria-labelledby="modal-form-title"
         aria-describedby="modal-form-description"
       >
-        <PaperModal elevation={0} sx={{backgroundColor: 'white'}}>
+        <PaperModal elevation={0} padding='20px' innerMargin='10px'>
           {modalContent == 0 ?
             <TextField
               InputProps={{style: {color: 'black'}}}
@@ -557,7 +574,6 @@ const Home = () => {
               fullWidth
               label="Title"
               variant="outlined"
-              sx={{flex: "1 0 130px"}}
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -570,32 +586,33 @@ const Home = () => {
               fullWidth
               label="Description"
               variant="outlined"
-              sx={{flex: "1 0 130px"}}
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           : null}
-          {modalContent == 0 ?
-            <DatePicker
-              className="datetime"
-              label="Date start"
-              value={dateStart}
-              onChange={(v) => setDateStart(v)}
-              minDate={dayjs()}
-              format="DD/MM/YYYY"
-            />
-          : null}
-          {modalContent == 0 ?
-            <DatePicker
-              className="datetime"
-              label="Date end"
-              value={dateEnd}
-              onChange={(v) => setDateEnd(v)}
-              minDate={dateStart ? dateStart : dayjs()}
-              format="DD/MM/YYYY"
-            />
-          : null}
+          <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center'}}>
+            {modalContent == 0 ?
+              <DatePicker
+                className="datetime"
+                label="Date start"
+                value={dateStart}
+                onChange={(v) => setDateStart(v)}
+                minDate={dayjs()}
+                format="DD/MM/YYYY"
+              />
+            : null}
+            {modalContent == 0 ?
+              <DatePicker
+                className="datetime"
+                label="Date end"
+                value={dateEnd}
+                onChange={(v) => setDateEnd(v)}
+                minDate={dateStart ? dateStart : dayjs()}
+                format="DD/MM/YYYY"
+              />
+            : null}
+          </div>
           {modalContent == 1 ? 
             <TextField
               InputProps={{style: {color: 'black'}}}
@@ -603,7 +620,6 @@ const Home = () => {
               fullWidth
               label="Location"
               variant="outlined"
-              sx={{flex: "1 0 130px"}}
               type="text"
               value={loc}
               onChange={(e) => setLoc(e.target.value)}
@@ -633,7 +649,6 @@ const Home = () => {
               fullWidth
               label="Name"
               variant="outlined"
-              sx={{flex: "1 0 130px"}}
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
