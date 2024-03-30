@@ -566,7 +566,7 @@ const Home = () => {
         aria-labelledby="modal-form-title"
         aria-describedby="modal-form-description"
       >
-        <PaperModal elevation={0} padding='20px' innerMargin='10px'>
+        <PaperModal elevation={0} padding='20px' inner-margin='10px'>
           {modalContent == 0 ?
             <TextField
               InputProps={{style: {color: 'black'}}}

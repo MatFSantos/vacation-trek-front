@@ -149,7 +149,7 @@ export const PaperModal = styled(Paper)`
   position: absolute;
   padding: ${(props) => props.padding};
   display: ${(props) => (props.innerMargin ? "flex" : "")};
-  flex-direction: ${(props) => props.innerMargin ? "column" : ""};
+  flex-direction: ${(props) => (props.innerMargin ? "column" : "")};
   align-items: center;
   min-width: 1000px;
   max-height: 90vh;
@@ -157,7 +157,9 @@ export const PaperModal = styled(Paper)`
   transition: all ease 0.4s;
 
   > div {
-    margin: ${(props) => props.innerMargin};
+    margin-bottom: ${(props) => props["inner-margin"]};
+    margin-top: ${(props) => props["inner-margin"]};
+    color: black;
   }
 
   ${({ theme }) => theme.breakpoints.down("lg")} {
@@ -180,17 +182,14 @@ export const PaperModal = styled(Paper)`
   .MuiInputBase-root:hover {
     border-color: gray;
   }
-  .MuiInputBase-input:focus {
-    .MuiInputBase-root:hover {
+  .MuiInputBase-root > input:focus  {
       border-color: white;
-    }
   }
-
-  > .datetime {
-    .MuiInputBase-input,
-    .MuiSvgIcon-root {
-      color: black;
-    }
+  .MuiInputBase-root > input {
+    color: black;
+  }
+  .MuiInputAdornment-root > button {
+    color: black;
   }
 `;
 
